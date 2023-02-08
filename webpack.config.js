@@ -21,6 +21,7 @@ module.exports = {
     },
     proxy: {
       '/api': 'http://localhost:3000',
+      '/account/oauth': 'http://localhost:3000',
       cookieDomainRewrite: 'localhost',
     },
     headers: {
