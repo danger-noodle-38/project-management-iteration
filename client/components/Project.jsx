@@ -34,7 +34,6 @@ const Project = ({ projectId, projectName, projectDescription }) => {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify(addusers),
-      s,
     })
       .then((res) => res.json())
       .then((results) => {
@@ -50,43 +49,44 @@ const Project = ({ projectId, projectName, projectDescription }) => {
   return (
     <div className="projectContainer">
       {/* dummy */}
-      <CardActionArea
-        component={RouterLink}
-        to={`/project/${projectId}`}
-        // below line is attempting to display project name in task container
-        state={{ projectName, projectDescription }}
-        //
-      >
-        <Card sx={{ minWidth: 200 }}>
-          {/* this should be a dynamically created title*/}
-          <CardContent>
+
+      <Card sx={{ minWidth: 200 }}>
+        {/* this should be a dynamically created title*/}
+        <CardContent>
+          <CardActionArea
+            component={RouterLink}
+            to={`/project/${projectId}`}
+            // below line is attempting to display project name in task container
+            state={{ projectName, projectDescription }}
+            //
+          >
             <h3>{projectName}</h3>
-            <Typography variant="h5" component="div">
-              {projectDescription}
-              {/* why so ugly */}
-            </Typography>
-            <hr />
-            {/* im guessing with properties */}
-            <FormGroup row>
-              <TextField
-                label="Add user to project"
-                variant="outlined"
-                sx={{ width: 400, height: 100 }}
-                placeholder="Enter user email"
-                onChange={(e) =>
-                  setAddUsers({
-                    ...addusers,
-                    email: e.target.value,
-                  })
-                }
-              />
-              <Button onClick={handleSubmit} style={{ height: 56 }}>
-                +
-              </Button>
-            </FormGroup>
-          </CardContent>
-        </Card>
-      </CardActionArea>
+          </CardActionArea>
+          <Typography variant="h5" component="div">
+            {projectDescription}
+            {/* why so ugly */}
+          </Typography>
+          <hr />
+          {/* im guessing with properties */}
+          <FormGroup row>
+            <TextField
+              label="Add user to project"
+              variant="outlined"
+              sx={{ width: 400, height: 100 }}
+              placeholder="Enter user email"
+              onChange={(e) =>
+                setAddUsers({
+                  ...addusers,
+                  email: e.target.value,
+                })
+              }
+            />
+            <Button onClick={handleSubmit} style={{ height: 56 }}>
+              +
+            </Button>
+          </FormGroup>
+        </CardContent>
+      </Card>
     </div>
   );
 };

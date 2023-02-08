@@ -2,10 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import TaskCard from '../components/TaskCard.jsx';
 import { TextField, FormGroup, Button, Typography } from '@mui/material';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const TasksContainer = () => {
   const { project } = useParams();
   let { state } = useLocation();
+
+  const initialColumns = {
+    // card =
+    todo: {
+      id: 'todo',
+      list: [],
+    },
+    doing: {
+      id: 'doing',
+      list: [],
+    },
+    done: {
+      id: 'done',
+      list: [],
+    },
+  };
+
+  const [columns, setColumns] = useState(initialColumns);
 
   const [cards, setTaskCards] = useState([]); //taskcards = []
   const [userInput, setUserInput] = useState({
@@ -13,12 +32,6 @@ const TasksContainer = () => {
     description: '',
     project: project,
   });
-  // useEffect(() => {}, []);
-
-  //add taskInput into tasks array
-  // const addTasks = (newTask) => {
-  //   setTaskCards([...cards, newTask]);
-  // };
 
   //add a task to project
   const handleSubmit = (e) => {
@@ -51,6 +64,15 @@ const TasksContainer = () => {
         setTaskCards([...tasksArr]);
       });
   }, []);
+
+  function handleOnDragEnd(result) {
+    console.log('handleONDRAGEND: ', result);
+    const newCards = Array.from(cards);
+    const [reorderedCard] = newCards.splice(result.source.index, 1);
+    newCards.splice(result.destination.index, 0, reorderedCard);
+    console.log(newCards);
+    setTaskCards(newCards);
+  }
 
   return (
     <div id="taskContainer">
@@ -92,11 +114,33 @@ const TasksContainer = () => {
         </FormGroup>
       </div>
       <hr />
-      <div className="cardGrid">
-        {cards.map((card, i) => (
-          <TaskCard key={i} card={card} />
-        ))}
-      </div>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <div className="cardGrid">
+          <div>
+            <h2>To Do</h2>
+            <Droppable droppableId="todo" type="column">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {cards.map((card, i) => (
+                    <TaskCard key={i} card={card} index={i} />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </div>
+          <div>
+            <h2>Doing</h2>
+            <Droppable droppableId="doing" type="column">
+              {(provided) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </div>
+        </div>
+      </DragDropContext>
     </div>
   );
 };
