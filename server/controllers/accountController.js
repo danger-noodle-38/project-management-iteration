@@ -33,7 +33,7 @@ accountController.checkUserExists = (req, res, next) => {
   //user logs in with email and password
 
   const { email } = JSON.parse(req.body);
-  console.log(email);
+  console.log('email: ', email);
   Account.find({ email })
     .exec()
     .then((data) => {
