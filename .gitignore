@@ -106,3 +106,9 @@ dist
 # Backup of MongoDB
 dump/
 pg_backup.sql
+
+# WebStorm
+.idea
+
+# sample output from GH
+scratch.json
