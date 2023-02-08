@@ -14,7 +14,7 @@ const LoginButton = () => {
         width="22"
         height="22"
         fill="lightgray"
-        class="bi bi-box-arrow-in-right"
+        className="bi bi-box-arrow-in-right"
         viewBox="0 0 16 16"
       >
         <path
