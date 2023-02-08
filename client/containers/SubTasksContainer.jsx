@@ -21,7 +21,10 @@ const SubTasksContainer = () => {
   const handleSubtaskSubmit = (e) => {
     e.preventDefault();
 
-    console.log('tosend this in post', subTaskInputs);
+    console.log(
+      'subTaskInputs to send this in post (handleSubtaskSubmit in SubTasksContainer.jsx): ',
+      subTaskInputs
+    );
     //fetch POST request to post subtasks when the add mini task button is clicked
     fetch('http://localhost:3000/project/task', {
       method: 'POST',
@@ -32,7 +35,10 @@ const SubTasksContainer = () => {
         res.json();
       })
       .then((results) => {
-        console.log('post task obj', results);
+        console.log(
+          'results / post task obj (handleSubtaskSubmit in SubTasksContainer.jsx):',
+          results
+        );
         setSubTasks([...subTasks, results]);
       })
       .catch((err) => console.log(err));

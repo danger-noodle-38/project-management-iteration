@@ -127,7 +127,8 @@ projectController.getProjects = (req, res, next) => {
   const email = res.locals.userSession.email;
 
   const text = `SELECT projectToUser.projectid FROM projectToUser WHERE userid = '${email}'`;
-
+  console.log('debugger should fire!');
+  debugger;
   db.query(text)
     .then((data) => {
       console.log(data.rows);
