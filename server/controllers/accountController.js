@@ -115,7 +115,9 @@ accountController.verifyUser = (req, res, next) => {
 
 //for auto-checking user exists based on browser cookie upon useEffect react hook
 accountController.checkUser = (req, res, next) => {
+  // console.log('testing');
   const ObjectId = require('mongodb').ObjectId;
+  // console.log('ObjectID:', ObjectId);
   const id = req.cookies.ssid;
   const o_id = new ObjectId(id);
 

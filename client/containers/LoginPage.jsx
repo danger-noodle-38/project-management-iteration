@@ -11,13 +11,13 @@ const Login = ({ setIsLoggedIn, isLoggedIn }) => {
   const [state, setState] = useState({ email: '', password: '' });
   const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    setIsLoggedIn(false);
-    // fetch('http://localhost:3000/account/logout', {
-    //   method: 'GET',
-    //   credentials: 'include',
-    // });
-  }, []);
+  // useEffect(() => {
+  //   setIsLoggedIn(false);
+  //   // fetch('http://localhost:3000/account/logout', {
+  //   //   method: 'GET',
+  //   //   credentials: 'include',
+  //   // });
+  // }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -34,7 +34,7 @@ const Login = ({ setIsLoggedIn, isLoggedIn }) => {
       email: state.email,
       password: state.password,
     };
-    // console.log(userLogin); //OK
+    console.log(userLogin); //OK
 
     fetch('http://localhost:3000/account/log', {
       method: 'POST',
@@ -64,7 +64,7 @@ const Login = ({ setIsLoggedIn, isLoggedIn }) => {
         {/* input form*/}
         {/* on submit, and verification, send to HomeContainer */}
         <form>
-          <label for="email">Email: </label>
+          <label htmlFor="email">Email: </label>
           <input
             type="email"
             id="email"
@@ -72,7 +72,7 @@ const Login = ({ setIsLoggedIn, isLoggedIn }) => {
             value={state.email}
             onChange={handleChange}
           ></input>
-          <label for="password">Password: </label>
+          <label htmlFor="password">Password: </label>
           <input
             type="password"
             id="password"

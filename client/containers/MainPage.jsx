@@ -21,7 +21,7 @@ const MainPage = () => {
         <Button
           variant="primary"
           size="md"
-          clsassName="sign-up"
+          className="sign-up"
           onClick={() => navigate('/signup')}
         >
           Sign Up
