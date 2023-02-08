@@ -19,7 +19,7 @@ const HomeContainer = () => {
   });
 
   const handleSubmit = (e) => {
-    console.log('projectInput:', projectInput);
+    console.log('projectInput: ', projectInput);
     e.preventDefault();
     // if (projectInput.projectName === '') return;
     //post request to add task to db
@@ -30,7 +30,7 @@ const HomeContainer = () => {
     })
       .then((res) => res.json())
       .then((results) => {
-        console.log('created new task res', results);
+        console.log('created new task res: ', results);
       })
       .then(setProjects([...projects, projectInput]));
   };
@@ -42,7 +42,7 @@ const HomeContainer = () => {
     })
       .then((res) => res.json())
       .then((results) => {
-        console.log('got the project goods - HomePage line 47', results);
+        console.log('got the project goods - HomeContainer.jsx:', results);
         const projArr = results;
         setProjects([...projArr]);
       });

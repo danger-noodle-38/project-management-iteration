@@ -59,7 +59,10 @@ accountController.checkUserExists = (req, res, next) => {
 };
 
 accountController.verifyUser = (req, res, next) => {
-  console.log(req.body, 'this is the req.body as-is');
+  console.log(
+    req.body,
+    'this is the req.body as-is (from accountController.verifyUser)'
+  );
   //console.log(req)
   //user logs in with email and password
   const { email, password } = JSON.parse(req.body);
@@ -69,7 +72,10 @@ accountController.verifyUser = (req, res, next) => {
   };
 
   const controller = (passPhrase) => {
-    console.log(passPhrase, 'this is the password');
+    console.log(
+      'this is the password (from accountController.verifyUser): ',
+      passPhrase
+    );
     Account.find({ email }, 'password')
       .exec()
       .then((data) => {

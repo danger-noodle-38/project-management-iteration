@@ -38,7 +38,7 @@ const Project = ({ projectId, projectName, projectDescription }) => {
     })
       .then((res) => res.json())
       .then((results) => {
-        console.log('just added user to project', results);
+        console.log('just added user to project: ', results);
       });
   };
 
