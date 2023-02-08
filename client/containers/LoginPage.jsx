@@ -43,7 +43,7 @@ const Login = ({ setIsLoggedIn }) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log('post req', result);
+        console.log('post req: ', result);
         console.log('login OK');
         setIsLoggedIn(true);
         navigate('/homepage');

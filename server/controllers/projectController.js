@@ -127,7 +127,8 @@ projectController.getProjects = (req, res, next) => {
   const email = res.locals.userSession.email;
 
   const text = `SELECT projectToUser.projectid FROM projectToUser WHERE userid = '${email}'`;
-
+  console.log('debugger should fire!');
+  debugger;
   db.query(text)
     .then((data) => {
       console.log(data.rows);
@@ -142,10 +143,8 @@ projectController.getProjects = (req, res, next) => {
           for (let i = 0; i < allProjectData.rows.length; i++) {
             for (const item of res.locals.projects) {
               if (item.projectid == allProjectData.rows[i]._id) {
-
                 item.projectName = allProjectData.rows[i].projectname;
                 item.projectDescription =
-
                   allProjectData.rows[i].projectdescription;
               }
             }

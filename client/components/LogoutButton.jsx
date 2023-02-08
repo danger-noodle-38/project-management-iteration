@@ -13,7 +13,7 @@ const LogoutButton = ({ setIsLoggedIn }) => {
         res.json();
       })
       .then((results) => {
-        console.log('logged out of ', results);
+        console.log('logged out of :', results);
         setIsLoggedIn(false);
         navigate('/');
       });

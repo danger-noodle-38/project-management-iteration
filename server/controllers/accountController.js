@@ -59,18 +59,23 @@ accountController.checkUserExists = (req, res, next) => {
 };
 
 accountController.verifyUser = (req, res, next) => {
-  console.log(req.body, 'this is the req.body as-is');
+  console.log(
+    req.body,
+    'this is the req.body as-is (from accountController.verifyUser)'
+  );
   //console.log(req)
   //user logs in with email and password
   const { email, password } = JSON.parse(req.body);
   res.locals.response = {
     email: email,
-    message: 'credentials are correct'
-  }
-  
+    message: 'credentials are correct',
+  };
 
   const controller = (passPhrase) => {
-    console.log(passPhrase, 'this is the password');
+    console.log(
+      'this is the password (from accountController.verifyUser): ',
+      passPhrase
+    );
     Account.find({ email }, 'password')
       .exec()
       .then((data) => {
@@ -78,14 +83,14 @@ accountController.verifyUser = (req, res, next) => {
         //compare plaintext pw and encrypted
         bcrypt.compare(passPhrase, data[0].password, function (err, res) {
           console.log(res, 'this is the res');
-          if(res){
+          if (res) {
             next();
           } else {
             next({
               log: 'Credentials are incorrect',
               status: 400,
               err: { err: 'Incorrect email' },
-            })
+            });
           }
           // else {
           //   return next({
@@ -94,7 +99,6 @@ accountController.verifyUser = (req, res, next) => {
           //     err: { err: 'The credentials are incorrect' },
           //   })
           // }
-          
         });
       })
       .catch((err) => {
