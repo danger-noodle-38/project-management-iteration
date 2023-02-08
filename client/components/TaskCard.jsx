@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SubTask from './SubTask.jsx';
+import { Draggable } from 'react-beautiful-dnd';
 import {
   Card,
   CardContent,
@@ -9,7 +10,7 @@ import {
   CardActionArea,
 } from '@mui/material';
 
-const TaskCard = ({ card }, project) => {
+const TaskCard = ({ card, index }, project) => {
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   if (!subTaskInput) return;
@@ -20,30 +21,28 @@ const TaskCard = ({ card }, project) => {
   // };
 
   return (
-    <div>
-      {/* <ul>
-          {subTasks.map((subTask, i) => (
-            <SubTask key={i} subTask={subTask} />
-          ))}
-        </ul> */}
-      <div className="cardContainer" color="blue">
-        {/* <CardActionArea // this CardActionArea component was for used as a link to SubTasks --> Not necessary?
-          // component={Link}
-          // to={`/project/${card.projectid}/tasks/${card._id}`}
-        > */}
-        <Card sx={{ minWidth: 200 }}>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              {card.name}
-            </Typography>
-            <Typography variant="p" component="div">
-              {card.description}
-            </Typography>
-          </CardContent>
-        </Card>
-        {/* </CardActionArea> */}
-      </div>
-    </div>
+    <Draggable draggableId={card.name} index={index}>
+      {(provided) => (
+        <div
+          className="cardContainer"
+          color="blue"
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <Card sx={{ minWidth: 200 }}>
+            <CardContent>
+              <Typography variant="h5" component="div">
+                {card.name}
+              </Typography>
+              <Typography variant="p" component="div">
+                {card.description}
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
