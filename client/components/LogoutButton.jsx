@@ -25,7 +25,7 @@ const LogoutButton = ({ setIsLoggedIn }) => {
         width="22"
         height="22"
         fill="lightgray"
-        class="bi bi-box-arrow-left"
+        className="bi bi-box-arrow-left"
         viewBox="0 0 16 16"
       >
         <path
