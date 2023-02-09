@@ -30,7 +30,6 @@ router.get('/', accountController.checkUser, (req, res) => {
   return res.status(200).json(res.locals.userSession);
 });
 
-// TODO: Move things from req.body to res.locals (globally - it's everywhere!)
 //log in existing user
 router.post(
   '/log',
