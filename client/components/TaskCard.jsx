@@ -21,28 +21,28 @@ const TaskCard = ({ card, index }, project) => {
   // };
 
   return (
-    <Draggable draggableId={card.name} index={index}>
-      {(provided) => (
-        <div
-          className="cardContainer"
-          color="blue"
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
-          <Card sx={{ minWidth: 200 }}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {card.name}
-              </Typography>
-              <Typography variant="p" component="div">
-                {card.description}
-              </Typography>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-    </Draggable>
+    // <Draggable key={key} draggableId={card.name} index={index}>
+    //   {(provided) => (
+    <div
+      className="cardContainer"
+      color="blue"
+      // {...provided.draggableProps}
+      // {...provided.dragHandleProps}
+      // ref={provided.innerRef}
+    >
+      <Card sx={{ minWidth: 200 }}>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            {card.name}
+          </Typography>
+          <Typography variant="p" component="div">
+            {card.description}
+          </Typography>
+        </CardContent>
+      </Card>
+    </div>
+    // )}
+    // </Draggable>
   );
 };
 
