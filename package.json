@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "concurrently \"NODE_ENV=development webpack serve --open\" \"nodemon server/server.js\""
+    "dev": "concurrently \"NODE_ENV=development webpack serve --open\" \"nodemon server/server.js\"",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
