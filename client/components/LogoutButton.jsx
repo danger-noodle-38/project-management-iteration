@@ -39,7 +39,7 @@ const LogoutButton = ({ setIsLoggedIn }) => {
       </svg>
       <button
         type="button"
-        className="logButton"
+        className="logButton loginAnchor"
         onClick={logout}
         id="logoutButton"
       >

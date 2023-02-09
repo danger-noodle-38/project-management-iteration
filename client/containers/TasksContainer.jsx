@@ -96,10 +96,10 @@ const TasksContainer = () => {
         </FormGroup>
       </div>
       <hr />
-      <div style={{ display: 'flex' }}>
+      <div className="cardGridContainer" style={{ display: 'flex' }}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <div className="cardGrid">
-            <div>
+            <div className="tasksContainer">
               <h2>To Do</h2>
               <Droppable droppableId="todo" type="column">
                 {(provided) => (
