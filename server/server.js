@@ -39,17 +39,19 @@ app.get('*', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(200).send('This page does not exist in real life...');
+  res.status(404).send('This page does not exist in real life...');
 });
 
 app.use((err, req, res, next) => {
   const defaultError = {
+    location: 'Error in unknown middleware',
     log: 'Global error handler caught an unknown middleware error.',
     status: 500,
     message: { err: 'An error has occurred' },
   };
   const errorObj = Object.assign({}, defaultError, err);
-  console.log(errorObj.log);
+  console.error(errorObj.location);
+  console.error(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
 

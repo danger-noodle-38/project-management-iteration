@@ -4,11 +4,10 @@ const bcrypt = require('bcryptjs');
 const accountController = {};
 
 accountController.createAccount = (req, res, next) => {
-  // -->
   console.log('we are currently in account controller create account');
   const { firstName, lastName, email, password } = res.locals;
+  // console.log(firstName, lastName, email, password, 'checking credentials');
 
-  console.log(firstName, lastName, email, password, 'checking credentials');
   if (!firstName || !lastName || !email || !password) {
     return next('Missing credentials');
   }
@@ -92,67 +91,45 @@ accountController.checkUserExistsFromResLocals = (req, res, next) => {
     });
 };
 
-accountController.verifyUser = (req, res, next) => {
-  // console.log(
-  //   req.body,
-  //   'this is the req.body as-is (from accountController.verifyUser)'
-  // );
-  //console.log(req)
+accountController.verifyUser = async (req, res, next) => {
   //user logs in with email and password
-  const { email, password } = res.locals;
-  res.locals.response = {
-    email: email,
-    message: 'credentials are correct',
-  };
+  const { email, password: plaintextPassword } = res.locals;
 
-  const controller = (passPhrase) => {
-    console.log(
-      'this is the password (from accountController.verifyUser): ',
-      passPhrase
+  // Unclear if this does anything... I doubt it because it runs before the actual check
+  // res.locals.response = {
+  //   email: email,
+  //   message: 'credentials are correct',
+  // };
+
+  try {
+    const account = await Account.find({ email }, 'password').exec();
+
+    if (!account.length)
+      throw new Error('User not found in accountController.verifyUser');
+
+    const hash = account[0].password;
+
+    const isPasswordValid = await bcrypt.compare(
+      // coerce to string in case it came from OAuth (Github id is a number)
+      plaintextPassword.toString(),
+      hash
     );
-    Account.find({ email }, 'password')
-      .exec()
-      .then((data) => {
-        console.log(data);
 
-        bcrypt.compare(
-          // coerce to string in case it came from OAuth (Github id is a number)
-          passPhrase.toString(),
-          data[0].password,
-          function (err, res) {
-            console.log(
-              res,
-              ': this is the res from bcrypt.compare in verifyUser'
-            );
-            if (res) {
-              next();
-            } else {
-              next({
-                log: 'Credentials are incorrect, from accountController.verifyUser',
-                status: 400,
-                err: { err: 'Incorrect email' },
-              });
-            }
-            // else {
-            //   return next({
-            //     log: 'Error occurred in the accountController.verifyUser middleware',
-            //     status: 400,
-            //     err: { err: 'The credentials are incorrect' },
-            //   })
-            // }
-          }
-        );
-      })
-      .catch((err) => {
-        next({
-          log: 'Error occurred in the accountController.verifyUser middleware',
-          status: 400,
-          err: { err: 'Unknown error' },
-        });
-      });
-  };
-
-  controller(password);
+    if (isPasswordValid) {
+      return next();
+    } else {
+      throw new Error(
+        'Credentials are incorrect, from accountController.verifyUser'
+      );
+    }
+  } catch (err) {
+    return next({
+      location: 'Error occurred in the accountController.verifyUser middleware',
+      log: err.message,
+      status: 400,
+      err: { err: 'Incorrect username or password' },
+    });
+  }
 };
 
 //for auto-checking user exists based on browser cookie upon useEffect react hook
@@ -174,7 +151,9 @@ accountController.checkUser = (req, res, next) => {
     })
     .catch((err) => {
       next({
-        log: 'Error occurred in the accountController.checkUser middleware',
+        location:
+          'Error occurred in the accountController.checkUser middleware',
+        log: err.message,
         status: 400,
         err: { err: 'Unknown cookie error' },
       });
