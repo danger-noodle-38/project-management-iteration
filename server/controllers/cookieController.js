@@ -5,7 +5,7 @@ const cookieController = {};
 
 cookieController.getSSIDCookie = (req, res, next) => {
   // write code here
-  const { email, password } = JSON.parse(req.body);
+  const { email, password } = res.locals;
   console.log('checking from SSID', email);
 
   Account.find({ email }, '_id')
