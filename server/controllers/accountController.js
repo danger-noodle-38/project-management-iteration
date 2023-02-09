@@ -6,8 +6,8 @@ const accountController = {};
 accountController.createAccount = (req, res, next) => {
   // -->
   console.log('we are currently in account controller create account');
-  const { firstName, lastName, email, password } = JSON.parse(req.body);
-  //console.log(req.body)
+  const { firstName, lastName, email, password } = res.locals;
+
   console.log(firstName, lastName, email, password, 'checking credentials');
   if (!firstName || !lastName || !email || !password) {
     return next('Missing credentials');
@@ -33,6 +33,8 @@ accountController.checkUserExists = (req, res, next) => {
   //user logs in with email and password
 
   const { email } = JSON.parse(req.body);
+  // const { email } = res.locals;
+
   console.log('email: ', email);
   Account.find({ email })
     .exec()
@@ -58,14 +60,46 @@ accountController.checkUserExists = (req, res, next) => {
     });
 };
 
+accountController.checkUserExistsFromResLocals = (req, res, next) => {
+  console.log('in checkUserExistsFromResLocals');
+  //user logs in with email and password
+
+  // const { email } = JSON.parse(req.body);
+  const { email } = res.locals;
+
+  console.log('email in check user exists: ', email);
+  Account.find({ email })
+    .exec()
+    .then((data) => {
+      console.log(data);
+      //compare plaintext pw and encrypted
+      if (data.length) {
+        console.log('found the account, checkUserExistsFromResLocals!');
+        res.locals.accountExists = true;
+        return next();
+      } else {
+        console.log('Did NOT find the account, checkUserExistsFromResLocals!');
+        res.locals.accountExists = false;
+        return next();
+      }
+    })
+    .catch((err) => {
+      next({
+        log: 'Error occurred in the accountController.checkUserExistsFromResLocals middleware',
+        status: 400,
+        err: { err: 'Unknown error' },
+      });
+    });
+};
+
 accountController.verifyUser = (req, res, next) => {
-  console.log(
-    req.body,
-    'this is the req.body as-is (from accountController.verifyUser)'
-  );
+  // console.log(
+  //   req.body,
+  //   'this is the req.body as-is (from accountController.verifyUser)'
+  // );
   //console.log(req)
   //user logs in with email and password
-  const { email, password } = JSON.parse(req.body);
+  const { email, password } = res.locals;
   res.locals.response = {
     email: email,
     message: 'credentials are correct',
@@ -80,26 +114,34 @@ accountController.verifyUser = (req, res, next) => {
       .exec()
       .then((data) => {
         console.log(data);
-        //compare plaintext pw and encrypted
-        bcrypt.compare(passPhrase, data[0].password, function (err, res) {
-          console.log(res, 'this is the res');
-          if (res) {
-            next();
-          } else {
-            next({
-              log: 'Credentials are incorrect',
-              status: 400,
-              err: { err: 'Incorrect email' },
-            });
+
+        bcrypt.compare(
+          // coerce to string in case it came from OAuth (Github id is a number)
+          passPhrase.toString(),
+          data[0].password,
+          function (err, res) {
+            console.log(
+              res,
+              ': this is the res from bcrypt.compare in verifyUser'
+            );
+            if (res) {
+              next();
+            } else {
+              next({
+                log: 'Credentials are incorrect, from accountController.verifyUser',
+                status: 400,
+                err: { err: 'Incorrect email' },
+              });
+            }
+            // else {
+            //   return next({
+            //     log: 'Error occurred in the accountController.verifyUser middleware',
+            //     status: 400,
+            //     err: { err: 'The credentials are incorrect' },
+            //   })
+            // }
           }
-          // else {
-          //   return next({
-          //     log: 'Error occurred in the accountController.verifyUser middleware',
-          //     status: 400,
-          //     err: { err: 'The credentials are incorrect' },
-          //   })
-          // }
-        });
+        );
       })
       .catch((err) => {
         next({

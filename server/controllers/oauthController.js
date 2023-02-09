@@ -1,6 +1,5 @@
 require('dotenv').config();
 const axios = require('axios');
-const { Octokit, App } = require('octokit');
 const { Account, Cookie, Session } = require('../models/models');
 const GITHUB_OAUTH_CLIENT_ID = process.env.GITHUB_OAUTH_CLIENT_ID;
 const GITHUB_OAUTH_CLIENT_SECRET = process.env.GITHUB_OAUTH_CLIENT_SECRET;
@@ -93,13 +92,21 @@ oauthController.requestGitHubIdentity = async (req, res, next) => {
 oauthController.queryGitHubAPIWithAccessToken = async (req, res, next) => {
   try {
     const auth = res.locals.access_token;
-    // const { data } = await axios.get('https://api.github.com/user, ', {
-    //   headers: { Authorization: `Bearer ${access_token}` },
-    // }); // didn't work
-    const octokit = new Octokit({ auth });
-    const { data } = await octokit.request('GET /user', {});
+    const { data } = await axios.get('https://api.github.com/user', {
+      headers: { Authorization: `Bearer ${auth}` },
+    });
     console.log('response from the api');
     console.log(data);
+
+    // set info from api to res.locals
+    res.locals = {
+      ...res.locals,
+      ...processGitHubData(data),
+      // firstName: ,
+      // lastName: ,
+      // email: ,
+      // password: ,
+    };
 
     return next();
   } catch (error) {
@@ -110,5 +117,20 @@ oauthController.queryGitHubAPIWithAccessToken = async (req, res, next) => {
     });
   }
 };
+
+// Helper function for converting Github API data to fields for database input
+function processGitHubData(data) {
+  const { name, email, id } = data;
+  // only works with two names
+  const [firstName, lastName] = name.split(' ');
+  return {
+    firstName,
+    lastName,
+    email,
+    password: id,
+  };
+}
+
+// console.log(processGitHubData(testData));
 
 module.exports = oauthController;
