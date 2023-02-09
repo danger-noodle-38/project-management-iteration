@@ -9,18 +9,10 @@ const GITHUB_REDIRECT_URI =
 const GITHUB_REQUEST_URL = new URL(`https://github.com/login/oauth/authorize`);
 GITHUB_REQUEST_URL.searchParams.append('client_id', GITHUB_OAUTH_CLIENT_ID);
 GITHUB_REQUEST_URL.searchParams.append('redirect_uri', GITHUB_REDIRECT_URI);
-GITHUB_REQUEST_URL.searchParams.append('scope', 'read:user');
+GITHUB_REQUEST_URL.searchParams.append('scope', 'read:user,user:email');
 GITHUB_REQUEST_URL.searchParams.append('allow_signup', true);
 
 const GITHUB_ACCESS_TOKEN_REQUEST_URL = `https://github.com/login/oauth/access_token`;
-// GITHUB_ACCESS_TOKEN_REQUEST_URL.searchParams.append(
-//   'client_id',
-//   GITHUB_OAUTH_CLIENT_ID
-// );
-// GITHUB_ACCESS_TOKEN_REQUEST_URL.searchParams.append(
-//   'client_secret',
-//   GITHUB_OAUTH_CLIENT_SECRET
-// );
 
 const oauthController = {};
 
