@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/server.js",
     "build": "NODE_ENV=production webpack",
-    "dev": "concurrently \"NODE_ENV=development webpack serve --open\" \"nodemon server/server.js\""
+    "dev": "concurrently \"NODE_ENV=development webpack serve --open\" \"nodemon server/server.js\"",
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "@babel/preset-react": "^7.18.6",
     "@svgr/webpack": "^6.5.1",
     "@testing-library/react": "^13.4.0",
+    "babel-jest": "^29.4.2",
     "babel-loader": "^9.1.2",
     "concurrently": "^7.6.0",
     "css-loader": "^6.7.3",
