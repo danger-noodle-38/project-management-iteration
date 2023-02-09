@@ -1,20 +1,51 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import Img from './removed.png';
+import Img from './logo.png';
 import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
   const navigate = useNavigate();
   return (
     <div className="Home-section">
-      <h1>ONUS</h1>
       <div id="blurbId">
         <br />
         <p id="blurb">
-          "STREAMLINE YOUR PROJECTS WITH OUR USER-FRIENDLY, FREE PROJECT
-          MANAGEMENT WEBSITE. SIGN UP NOW AND EXPERIENCE HASSLE-FREE
-          COLLABORATION!"
+          <span id="blurbSpan">Streamline your projects</span> with ease
         </p>
+        <p id="subblurb">
+          OPUS offers a comprehensive suite of project management tools to help
+          make projects a breeze.
+        </p>
+        <div id="trustedByDiv">
+          <img
+            src="https://mui.com/static/branding/companies/spotify-light.svg"
+            alt="Spotify logo"
+          />
+          <img
+            src="https://mui.com/static/branding/companies/amazon-light.svg"
+            alt="Amazon logo"
+          />
+          <img
+            src="https://mui.com/static/branding/companies/nasa-light.svg"
+            alt="NASA logo"
+          />
+          <img
+            src="https://mui.com/static/branding/companies/netflix-light.svg"
+            alt="Netflix logo"
+          />
+          <img
+            src="https://mui.com/static/branding/companies/unity-light.svg"
+            alt="Unity logo"
+          />
+          <img
+            src="https://mui.com/static/branding/companies/shutterstock-light.svg"
+            alt="Shutterstock logo"
+          />
+          
+        <p id="trustedByBlurb">
+        The world's best product teams trust OPUS to deliver an unrivaled experience.
+        </p>
+        </div>
       </div>
       <img src={Img} style={{ width: '30vw', margin: '20 auto 50 auto' }} />
       <div className="sign-buttons">

@@ -9,7 +9,7 @@ const LogoButton = () => {
       id="logoButton"
       onClick={() => navigate('/')}
     >
-      ONUS
+      OPUS
     </button>
   );
 };
