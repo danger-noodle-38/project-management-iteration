@@ -8,24 +8,6 @@ const TasksContainer = () => {
   const { project } = useParams();
   let { state } = useLocation();
 
-  const initialColumns = {
-    // card =
-    todo: {
-      id: 'todo',
-      list: [],
-    },
-    doing: {
-      id: 'doing',
-      list: [],
-    },
-    done: {
-      id: 'done',
-      list: [],
-    },
-  };
-
-  const [columns, setColumns] = useState(initialColumns);
-
   const [cards, setTaskCards] = useState([]); //taskcards = []
   const [userInput, setUserInput] = useState({
     name: '',
@@ -114,33 +96,107 @@ const TasksContainer = () => {
         </FormGroup>
       </div>
       <hr />
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <div className="cardGrid">
-          <div>
-            <h2>To Do</h2>
-            <Droppable droppableId="todo" type="column">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {cards.map((card, i) => (
-                    <TaskCard key={i} card={card} index={i} />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+      <div style={{ display: 'flex' }}>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="cardGrid">
+            <div>
+              <h2>To Do</h2>
+              <Droppable droppableId="todo" type="column">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {cards.map((card, i) => {
+                      return (
+                        <Draggable
+                          key={card.name}
+                          draggableId={card.name}
+                          index={i}
+                        >
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <TaskCard key={i} card={card} index={i} />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
           </div>
-          <div>
-            <h2>Doing</h2>
-            <Droppable droppableId="doing" type="column">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
+        </DragDropContext>
+        {/* <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="cardGrid">
+            <div>
+              <h2>Doing</h2>
+              <Droppable droppableId="todo" type="column">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {cards.map((card, i) => {
+                      return (
+                        <Draggable
+                          key={card.name}
+                          draggableId={card.name}
+                          index={i}
+                        >
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <TaskCard key={i} card={card} index={i} />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
           </div>
-        </div>
-      </DragDropContext>
+        </DragDropContext>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <div className="cardGrid">
+            <div>
+              <h2>Done</h2>
+              <Droppable droppableId="todo" type="column">
+                {(provided) => (
+                  <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {cards.map((card, i) => {
+                      return (
+                        <Draggable
+                          key={card.name}
+                          draggableId={card.name}
+                          index={i}
+                        >
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <TaskCard key={i} card={card} index={i} />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          </div>
+        </DragDropContext> */}
+      </div>
     </div>
   );
 };

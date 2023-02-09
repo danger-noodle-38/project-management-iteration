@@ -1,11 +1,11 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Login from '../containers/LoginPage.jsx';
 
 const LoginButton = () => {
   const navigate = useNavigate();
   const navigateLogin = () => {
-    navigate('/login');
+    navigate('/account/oauth/login');
   };
   return (
     <>
@@ -26,14 +26,17 @@ const LoginButton = () => {
           d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
         />
       </svg>
-      <button
-        type="button"
-        className="logButton"
-        id="loginButton"
-        onClick={navigateLogin}
-      >
-        Login
-      </button>
+      
+        <button
+          type="button"
+          className="logButton"
+          id="loginButton"
+          // style={{fontSize: '1.5rem'}}
+          onClick={navigateLogin}
+        >
+          Login with Github
+        </button>
+
     </>
   );
 };
