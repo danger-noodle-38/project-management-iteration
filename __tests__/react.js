@@ -4,6 +4,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import LoginPage from '../client/containers/LoginPage';
+import LoginButton from '../client/components/LoginButton';
 
 describe('Unit testing React components', () => {
   let state;
@@ -26,12 +27,14 @@ describe('Unit testing React components', () => {
       fireEvent.click(screen.getByText('Login'));
       expect(history.location.pathname).toBe('/homepage');
     });
+  });
 
+  describe('LoginButton', () => {
     test('Renders the Login Page if OAuth login is unsuccessful', async () => {
-      // use mock onClick with .jestfn()
-      // set isLoggedIn to false
-      // fireEvent.click(getByText('Login with OAuth')) ???
-      // looks at document for 'projects'
+      const history = createMemoryHistory();
+      render(<LoginButton isLoggedIn={true} />);
+      fireEvent.click(screen.getByText('Login with Github'));
+      expect(history.location.pathname).toBe('account/oauth/login');
     });
 
     test('Renders the Home Page if OAuth login is successful', async () => {
@@ -39,6 +42,10 @@ describe('Unit testing React components', () => {
       // set isLoggedIn to true
       // fireEvent.click(getByText('Login with Oauth')) ???
       // looks at document for 'projects'
+      const history = createMemoryHistory();
+      render(<LoginButton isLoggedIn={true} />);
+      fireEvent.click(screen.getByText('Login with Github'));
+      expect(history.location.pathname).toBe('account/oauth/login');
     });
   });
 });
